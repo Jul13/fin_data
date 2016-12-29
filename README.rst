@@ -6,8 +6,8 @@ FinData
 .. image:: https://img.shields.io/pypi/v/findata.svg
         :target: https://pypi.python.org/pypi/findata
 
-.. image:: https://img.shields.io/travis/gpostelnicu/findata.svg
-        :target: https://travis-ci.org/gpostelnicu/findata
+.. image:: https://img.shields.io/travis/gpostelnicu/fin_data.svg
+        :target: https://travis-ci.org/gpostelnicu/fin_data
 
 .. image:: https://readthedocs.org/projects/findata/badge/?version=latest
         :target: https://findata.readthedocs.io/en/latest/?badge=latest
