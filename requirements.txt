@@ -1,5 +1,5 @@
-pip==8.1.2
-pandas=0.18.1
+pip
+pandas
 requests
-coverage==4.1
+coverage
 
