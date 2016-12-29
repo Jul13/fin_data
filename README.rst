@@ -2,20 +2,8 @@
 FinData
 ===============================
 
-
-.. image:: https://img.shields.io/pypi/v/findata.svg
-        :target: https://pypi.python.org/pypi/findata
-
 .. image:: https://img.shields.io/travis/gpostelnicu/fin_data.svg
         :target: https://travis-ci.org/gpostelnicu/fin_data
-
-.. image:: https://readthedocs.org/projects/findata/badge/?version=latest
-        :target: https://findata.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-.. image:: https://pyup.io/repos/github/gpostelnicu/findata/shield.svg
-     :target: https://pyup.io/repos/github/gpostelnicu/findata/
-     :alt: Updates
 
 
 Python Boilerplate contains all the boilerplate you need to create a Python package.
