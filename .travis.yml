@@ -1,21 +1,31 @@
 language: python
-python: 2.7
-env:
-- TOXENV=py35
-- TOXENV=py34
-- TOXENV=py33
-- TOXENV=py27
-- TOXENV=py26
-- TOXENV=pypy
-install: pip install -U tox
-script: tox -e ${TOXENV}
-deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  user: gpostelnicu
-  password:
-    secure: hriuJ3I23DFuQ4GIgGJvV+1WbQOkGAPKijrDIHmJMpGvD4r6WtmJm9JP/RfpfgKsHhkOEwzNSd72ggA6Q9oc5XedTNiq3CbZ9sXiRcVPJ4TJqoAYiOcq+IjE2n68ejHNYS2GjXWknwCcDeUnc+Iz8iFNgv84rczpyJjTDG3VkJlfSrM/YuzcrEKtdYoxo8FqZNQj31WckqN7yJIQOfKSUVSgwHqml2FYbB8Cw9+KV4Ef72MJdt1pCkgrHEfRK1+KNVehtbh7klhNicWBrWvcCyzTTvnSBQAVyBof/ku0+1oPcbOFvzgtCCImE2EZwrkpkmy00gCYQc9U4ngIjN26Kko7rPkae6pbVnQ70Ws5cLzuO0EouRsnD2ssTz6iabl/ZzJNd2ySObQIffpbV3A5uGkibeijobFbL5/P4rxoD2VoN7VD1D3/12+FcX70Dcj5Y4ARgDl6pYzPn7k4Re0wF/WSyHRy/Z63IJf/9SFUR2UZVykcCEfoz4wzPojBm8xVy/dgqAOKNgu2YQAGLUDKusJcJYkU/BXkQodWk1cGnqySiBCCxU89eKB4lUMbXyPX9IeSYy5oEFa7jKO0Ze1NFTAiOUUXbgqDXWVQPxzqLeUckmL6SKMxEXlit3ktS4E3+J9ih5ajcHBCQsiVhOUj/f8PoXKJC/T1q9+CO86XV1s=
-  on:
-    tags: true
-    repo: gpostelnicu/findata
-    condition: $TOXENV == py27
+python:
+  - 2.7
+  - 3.3
+notifications:
+  email: false
+
+# Setup anaconda
+before_install:
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda/bin:$PATH
+  - conda update --yes conda
+  # The next couple lines fix a crash with multiprocessing on Travis and are not specific to using Miniconda
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
+# Install packages
+install:
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION --file requirements.txt
+  # Coverage packages are on my binstar channel
+  - conda install --yes python-coveralls nose-cov
+  - python setup.py install
+
+# Run test
+script:
+  - nosetests --with-cov --cov YOUR_PACKAGE_NAME_HERE --cov-config .coveragerc --logging-level=INFO
+
+# Calculate coverage
+after_success:
+  - coveralls --config_file .coveragerc

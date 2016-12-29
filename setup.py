@@ -13,10 +13,6 @@ requirements = [
     'pandas'
 ]
 
-test_requirements = [
-    # TODO: put package test requirements here
-]
-
 setup(
     name='findata',
     version='0.1.0',
@@ -49,5 +45,5 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     test_suite='tests',
-    tests_require=test_requirements
+    tests_require=requirements
 )
