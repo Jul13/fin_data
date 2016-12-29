@@ -17,7 +17,7 @@ from findata import findata
 from findata import wiki_data
 
 
-class TestFindata(unittest.TestCase):
+class TestWikiData(unittest.TestCase):
 
     def setUp(self):
         dir = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +32,7 @@ class TestFindata(unittest.TestCase):
         self.wiki_data.store_snapshot(self.input_csv)
         df = self.wiki_data.load()
         self.assertEqual(len(df), 9)
+        self.assertEqual(len(df.columns), 14)
 
 
 if __name__ == '__main__':
