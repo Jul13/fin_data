@@ -1,0 +1,15 @@
+language: python
+python: 2.7
+env: 
+install: pip install -U tox
+script: tox -e ${TOXENV}
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: gpostelnicu
+  password:
+    secure: me9kftIbGECPeEARGZLNOR5GW7Z6w6rBQaqynT08sgRRMzxdOOYcHUzRfuaNwX8C+FZw661ZXMiCWyIkJMdRc4SCqsjsZ7Bw2ah+3SyRCA9LQIjeNUtzxp4lN14ZtbQByCgo72KjJR7w+ApQnWfPCgAVrtcUdJMe31Erkj++Sw92776KG+PrIfGuWof2Qh8UJsL2II6VGD4c1FbOIPwKosqyms2wCv0j/3eG2BjMFVRj6OPkptod5pF7k2Lw1uH3jjNzQxsYyUTyOh1zURa16QKpnQ01JR9UpGfK2DuZCLDnidBzrODhvyM2KhH65m8FslQJqYA3JbZn69LkM44zmDZfxZ7DevEZhGOcv1RTvnJd/Njgit6rIsq0Ghu6RIQENjPewRK5FLbnEidHyrBG1n9RXj4+Z4i5zPc7zuT5AAMNytICycOWb9AyxOU+W/SLX8/brK/wQD/b32IAgt3XvTlwDs/TdMwEz6KVs7NmgF5Vg6At7TzDXH2ZczzIfEfmiSEK+J2zwQfi3QPRvtf25TP8Vf1S3yN1tZ8Yj5VyfZnZc6QQ1VoVmToUMFXouzAQYFDS17ZmKDmP3lboyE2ubRezr0X64qabf3dA6Jyjq71KMvexCUCHgPd5Cd1O2HYUOMEgChxIuDy4S/T9DAnb8SxZTZx4aQwej2SuYMNVvAw=
+  on:
+    tags: true
+    repo: gpostelnicu/findata
+    condition: $TOXENV == py27
