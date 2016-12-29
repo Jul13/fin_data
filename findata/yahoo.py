@@ -9,6 +9,8 @@ class Yahoo(object):
 
     # Taken from http://www.jarloo.com/yahoo_finance/
     yahoo_query_params = {
+        'ticker': 's',
+        'average_daily_volume': 'a2',
         'dividend_yield': 'y',
         'dividend_per_share': 'd',
         'earnings_per_share': 'e',
@@ -17,7 +19,10 @@ class Yahoo(object):
         'ex_dividend_date': 'q',
         'market_cap': 'j1',
         'price_earnings_ratio': 'r',
-        'short_ratio': 's7'
+        'short_ratio': 's7',
+        'volume': 'v',
+        '52w_low': 'j',
+        '52w_high': 'k'
     }
 
     def __init__(self, chunk_size=500):
@@ -56,7 +61,6 @@ class Yahoo(object):
         for col in ['ex_dividend_date']:
             ret[col] = pd.to_datetime(ret[col])
         ret['market_cap'] = [self._convert_market_cap(mc) for mc in ret.market_cap]
-        ret['Symbol'] = symbols
         return ret
 
 

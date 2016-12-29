@@ -15,6 +15,7 @@ class TestWikiData(unittest.TestCase):
         yahoo = Yahoo()
 
         df = yahoo.query(['F', 'AAPL'])
-        symbols = df.Symbol.tolist()
+        symbols = df.ticker.tolist()
         self.assertTrue('F' in symbols)
         self.assertTrue('AAPL' in symbols)
+        self.assertTrue('52w_high' in df.columns)
