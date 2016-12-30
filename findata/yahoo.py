@@ -1,3 +1,5 @@
+import urllib
+from datetime import date, datetime
 
 import pandas as pd
 import re
@@ -55,13 +57,47 @@ class Yahoo(object):
         ret = pd.concat(dfs)
         return ret
 
-    def query(self, symbols):
-        ret = self._fetch_fields(symbols, ''.join(Yahoo.yahoo_query_params.values()))
+    def batch_snapshot(self, tickers):
+        """
+        Retrieves financial information for a batch of stock symbols.
+
+        Args:
+            tickers (list<str>): list of stock symbols
+        Returns:
+            pandas.Dataframe: dataframe with one row per symbol.
+        """
+        ret = self._fetch_fields(tickers, ''.join(Yahoo.yahoo_query_params.values()))
         ret.columns = Yahoo.yahoo_query_params.keys()
         for col in ['ex_dividend_date']:
             ret[col] = pd.to_datetime(ret[col])
         ret['market_cap'] = [self._convert_market_cap(mc) for mc in ret.market_cap]
         return ret
+
+    def history_dividends(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
+        """
+        Extracts the dividend payout history for an individual stock.
+
+        Args:
+            ticker (str): stock symbol
+        Returns:
+            pandas.DataFrame: dataframe with dates and dividends.
+        """
+        base_url = 'http://ichart.finance.yahoo.com/table.csv'
+        params = {'s': ticker,
+                  'g': 'v',
+                  'a': from_date.day,
+                  'b': from_date.month,
+                  'c': from_date.year,
+                  'd': to_date.day,
+                  'e': to_date.month,
+                  'f': to_date.year
+                  }
+        url = '{}?{}'.format(base_url, urllib.urlencode(params))
+        raw_dat = urllib2.urlopen(url).read()
+        df = pd.read_csv(StringIO.StringIO(raw_dat), parse_dates=[0])
+        return df
+
+
 
 
 
