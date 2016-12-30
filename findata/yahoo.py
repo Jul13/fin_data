@@ -73,29 +73,45 @@ class Yahoo(object):
         ret['market_cap'] = [self._convert_market_cap(mc) for mc in ret.market_cap]
         return ret
 
-    def history_dividends(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
-        """
-        Extracts the dividend payout history for an individual stock.
-
-        Args:
-            ticker (str): stock symbol
-        Returns:
-            pandas.DataFrame: dataframe with dates and dividends.
-        """
+    def _history_call(self, ticker, from_date, to_date, params):
         base_url = 'http://ichart.finance.yahoo.com/table.csv'
-        params = {'s': ticker,
-                  'g': 'v',
+        params.update({'s': ticker,
                   'a': from_date.day,
                   'b': from_date.month,
                   'c': from_date.year,
                   'd': to_date.day,
                   'e': to_date.month,
                   'f': to_date.year
-                  }
+                  })
         url = '{}?{}'.format(base_url, urllib.urlencode(params))
         raw_dat = urllib2.urlopen(url).read()
         df = pd.read_csv(StringIO.StringIO(raw_dat), parse_dates=[0])
         return df
+
+
+    def historic_ohlc(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
+        """
+        Extracts an OHLC dataframe for the given ticker.
+
+        Args:
+            ticker (str): stock symbol
+            from_date (date): start date
+            to_date (date): end date
+        """
+        return self._history_call(ticker, from_date, to_date, {'g': 'd'})
+
+    def historic_dividends(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
+        """
+        Extracts the dividend payout history for an individual stock.
+
+        Args:
+            ticker (str): stock symbol
+            from_date (date): start date
+            to_date (date): end date
+        Returns:
+            pandas.DataFrame: dataframe with dates and dividends.
+        """
+        return self._history_call(ticker, from_date, to_date, {'g': 'v'})
 
 
 
