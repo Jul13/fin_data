@@ -9,19 +9,17 @@ Tests for `findata` module.
 """
 import os
 import shutil
-import sys
 import tempfile
 import unittest
 
-from findata import findata
-from findata import wiki_data
+from findata.io import wiki_data
 
 
 class TestWikiData(unittest.TestCase):
 
     def setUp(self):
         dir = os.path.dirname(os.path.abspath(__file__))
-        self.input_csv = os.path.join(dir, 'resources/WIKI_test.csv')
+        self.input_csv = os.path.join(dir, '../resources/WIKI_test.csv')
         self.test_dir = tempfile.mkdtemp()
         self.wiki_data = wiki_data.WikiData(self.test_dir)
 
