@@ -9,8 +9,13 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-with open('requirements.txt') as requirements_file:
-    requirements = requirements_file.read()
+requirements = [
+    'h5py',
+    'pandas',
+    'pip',
+    'tables',
+    'pykalman'
+]
 
 setup(
     name='fin_data',

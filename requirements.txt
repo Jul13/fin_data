@@ -1,7 +1,7 @@
 coverage
 h5py
 nose
-pip
 pandas
-requests
-
+pip
+pytables
+scipy
