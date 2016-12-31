@@ -1,7 +1,6 @@
 import urllib
 from datetime import date
 import pandas as pd
-import urllib2
 
 # Handle Python 3.
 try:
