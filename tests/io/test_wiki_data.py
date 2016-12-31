@@ -12,7 +12,7 @@ import shutil
 import tempfile
 import unittest
 
-from findata.io import wiki_data
+from fin_data.io import wiki_data
 
 
 class TestWikiData(unittest.TestCase):

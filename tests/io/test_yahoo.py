@@ -1,6 +1,6 @@
 import unittest
 
-from findata.io.yahoo import Yahoo
+from fin_data.io.yahoo import Yahoo
 
 
 class TestWikiData(unittest.TestCase):

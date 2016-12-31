@@ -50,8 +50,7 @@ lint: ## check style with flake8
 	flake8 findata tests
 
 test: ## run tests quickly with the default Python
-
-		python setup.py test
+	python setup.py test
 
 coverage: ## check code coverage quickly with the default Python
 

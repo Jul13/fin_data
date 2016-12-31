@@ -1,6 +1,6 @@
 import unittest
 
-from findata.signals.kalman import moving_average
+from fin_data.signals.kalman import moving_average
 
 
 class TestKalman(unittest.TestCase):

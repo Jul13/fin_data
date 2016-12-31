@@ -16,11 +16,11 @@ requirements = [
 setup(
     name='findata',
     version='0.1.0',
-    description="Python Boilerplate contains all the boilerplate you need to create a Python package.",
+    description="Utilities for reading and analyzing financial data.",
     long_description=readme + '\n\n' + history,
     author="Gheorghe Postelnicu",
     author_email='gheorghe.postelnicu@gmail.com',
-    url='https://github.com/gpostelnicu/findata',
+    url='https://github.com/gpostelnicu/fin_data',
     packages=[
         'findata',
     ],
