@@ -1,11 +1,12 @@
 import urllib
-from datetime import date, datetime
-
+from datetime import date
 import pandas as pd
-import re
-import StringIO
 import urllib2
 
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 class Yahoo(object):
 
@@ -52,7 +53,7 @@ class Yahoo(object):
         for chunk in chunker(symbols):
             request = 'http://download.finance.yahoo.com/d/quotes.csv?s={}&f={}'.format(','.join(chunk), fields)
             raw_dat = urllib2.urlopen(request).read()
-            df = pd.read_csv(StringIO.StringIO(raw_dat), header=None)
+            df = pd.read_csv(StringIO(raw_dat), header=None)
             dfs.append(df)
         ret = pd.concat(dfs)
         return ret
@@ -85,7 +86,7 @@ class Yahoo(object):
                   })
         url = '{}?{}'.format(base_url, urllib.urlencode(params))
         raw_dat = urllib2.urlopen(url).read()
-        df = pd.read_csv(StringIO.StringIO(raw_dat), parse_dates=[0])
+        df = pd.read_csv(StringIO(raw_dat), parse_dates=[0])
         return df
 
 
