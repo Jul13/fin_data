@@ -30,7 +30,7 @@ install:
 
 # Run test
 script:
-  - nosetests --with-cov --cover-tests findata  --logging-level=INFO
+  - nosetests --with-coverage -w tests/ --cover-package=findata
 
 # Calculate coverage
 after_success:

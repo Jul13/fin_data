@@ -1,5 +1,5 @@
+coverage
 pip
 pandas
 requests
-coverage
 
