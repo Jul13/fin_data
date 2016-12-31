@@ -3,10 +3,20 @@ from datetime import date
 import pandas as pd
 import urllib2
 
+# Handle Python 3.
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
+
+
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urllib2 import urlopen
+
 
 class Yahoo(object):
 
@@ -52,7 +62,7 @@ class Yahoo(object):
         dfs = []
         for chunk in chunker(symbols):
             request = 'http://download.finance.yahoo.com/d/quotes.csv?s={}&f={}'.format(','.join(chunk), fields)
-            raw_dat = urllib2.urlopen(request).read()
+            raw_dat = urlopen(request).read()
             df = pd.read_csv(StringIO(raw_dat), header=None)
             dfs.append(df)
         ret = pd.concat(dfs)
