@@ -93,7 +93,7 @@ class Yahoo(object):
                   'e': to_date.month,
                   'f': to_date.year
                   })
-        url = '{}?{}'.format(base_url, '&'.join('{}={}'.format(k, v) for k, v in params.iteritems()))
+        url = '{}?{}'.format(base_url, '&'.join('{}={}'.format(k, params[k]) for k in params))
         raw_dat = urlopen(url).read()
         df = pd.read_csv(StringIO(raw_dat), parse_dates=[0])
         return df
