@@ -1,20 +1,7 @@
 from datetime import date
 import pandas as pd
-
-# Handle Python 3.
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
-
-try:
-    # For Python 3.0 and later
-    from urllib.request import urlopen
-
-except ImportError:
-    # Fall back to Python 2's urllib2
-    from urllib2 import urlopen
+from StringIO import StringIO
+from urllib2 import urlopen
 
 
 class Yahoo(object):
