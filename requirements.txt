@@ -3,4 +3,4 @@ nose
 pip
 pandas
 requests
-
+tables  
