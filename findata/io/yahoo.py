@@ -1,4 +1,3 @@
-import urllib
 from datetime import date
 import pandas as pd
 
@@ -12,6 +11,7 @@ except ImportError:
 try:
     # For Python 3.0 and later
     from urllib.request import urlopen
+
 except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen
@@ -93,8 +93,8 @@ class Yahoo(object):
                   'e': to_date.month,
                   'f': to_date.year
                   })
-        url = '{}?{}'.format(base_url, urllib.urlencode(params))
-        raw_dat = urllib2.urlopen(url).read()
+        url = '{}?{}'.format(base_url, '&'.join('{}={}'.format(k, v) for k, v in params.iteritems()))
+        raw_dat = urlopen(url).read()
         df = pd.read_csv(StringIO(raw_dat), parse_dates=[0])
         return df
 
