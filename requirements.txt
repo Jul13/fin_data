@@ -3,6 +3,5 @@ h5py
 nose
 pip
 pandas
-pytables
 requests
 

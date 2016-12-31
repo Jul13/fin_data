@@ -9,12 +9,11 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-    'pandas'
-]
+with open('requirements.txt') as requirements_file:
+    requirements = requirements_file.read()
 
 setup(
-    name='findata',
+    name='fin_data',
     version='0.1.0',
     description="Utilities for reading and analyzing financial data.",
     long_description=readme + '\n\n' + history,
@@ -22,15 +21,15 @@ setup(
     author_email='gheorghe.postelnicu@gmail.com',
     url='https://github.com/gpostelnicu/fin_data',
     packages=[
-        'findata',
+        'fin_data',
     ],
-    package_dir={'findata':
-                 'findata'},
+    package_dir={'fin_data':
+                 'fin_data'},
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='findata',
+    keywords='fin_data',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
