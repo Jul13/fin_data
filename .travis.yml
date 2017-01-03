@@ -29,7 +29,7 @@ install:
 
 # Run test
 script:
-  - nosetests --with-coverage -w tests/ --cover-package=fin_data
+  - nosetests --with-coverage --cover-package=fin_data tests/
 
 # Calculate coverage
 after_success:

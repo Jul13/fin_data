@@ -22,6 +22,6 @@ class TestWikiData(unittest.TestCase):
         dividends = self.yahoo.historic_dividends('F')
         self.assertTrue({'Date', 'Dividends'}.issubset(dividends.columns))
 
-    def test_historic_ohlc(self):
-        ohlc = self.yahoo.historic_ohlc('F')
-        self.assertTrue({'Date', 'Open', 'High', 'Low', 'Close', 'Volume'}.issubset(ohlc.columns))
+    def test_historic_close(self):
+        dat = self.yahoo.historic_close(['F', 'GS'])
+        self.assertTrue({'F', 'GS'}.issubset(dat.columns))

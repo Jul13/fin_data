@@ -85,16 +85,32 @@ class Yahoo(object):
         df = pd.read_csv(StringIO(raw_dat), parse_dates=[0])
         return df
 
-
-    def historic_ohlc(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
+    def historic_close(self, tickers, from_date=date(2010, 1, 1), to_date=date.today(), join_type='inner'):
         """
-        Extracts an OHLC dataframe for the given ticker.
+        Extracts the adjusted close for a set of tickers.
 
         Args:
-            ticker (str): stock symbol
+            tickers (list(str)): stock symbol
             from_date (date): start date
             to_date (date): end date
+            joint_type (str): type of join
+        Returns:
+            Dataframe indexed by date with one column by stock ticker.
         """
+        def fetch_adj_close(ticker, from_date, to_date):
+            dat = self._single_historic_ohlc(ticker, from_date, to_date)
+            dat.set_index('Date', inplace=True)
+            ret = dat[['Adj Close']]
+            ret.columns = [ticker]
+            return ret
+
+        dats = [fetch_adj_close(ticker, from_date=from_date, to_date=to_date) for ticker in tickers]
+        base = dats[0]
+        for d in dats[1:]:
+            base = base.join(d, how=join_type)
+        return base
+
+    def _single_historic_ohlc(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
         return self._history_call(ticker, from_date, to_date, {'g': 'd'})
 
     def historic_dividends(self, ticker, from_date=date(2010, 1, 1), to_date=date.today()):
