@@ -23,5 +23,6 @@ class TestWikiData(unittest.TestCase):
         self.assertTrue({'Date', 'Dividends'}.issubset(dividends.columns))
 
     def test_historic_close(self):
-        dat = self.yahoo.historic_close(['F', 'GS'])
-        self.assertTrue({'F', 'GS'}.issubset(dat.columns))
+        test_tickers = ['F', 'GS']
+        dat = self.yahoo.historic_close(test_tickers)
+        self.assertListEqual(test_tickers, dat.columns.tolist())
