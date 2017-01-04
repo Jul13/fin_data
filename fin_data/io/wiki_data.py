@@ -35,3 +35,16 @@ class WikiData(object):
         assert len(wiki_files) > 0
         last_file = sorted(wiki_files, reverse=True)[0]
         return pd.read_hdf(os.path.join(self.base_dir, last_file))
+
+    @staticmethod
+    def pivot_dimension(dat):
+        """
+        Pivots the data along the 'adj_close' dimension.
+
+        Args:
+             dat (DataFrame): loaded wiki data.
+
+        Returns:
+            DataFrame: pivoted dataframe.
+        """
+        return dat.pivot(columns='ticker', values='adj_close')

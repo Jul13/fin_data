@@ -22,15 +22,21 @@ class TestWikiData(unittest.TestCase):
         self.input_csv = os.path.join(dir, '../resources/WIKI_test.csv')
         self.test_dir = tempfile.mkdtemp()
         self.wiki_data = wiki_data.WikiData(self.test_dir)
+        self.wiki_data.store_snapshot(self.input_csv)
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
 
     def test_load_snapshot(self):
-        self.wiki_data.store_snapshot(self.input_csv)
         df = self.wiki_data.load()
         self.assertEqual(len(df), 9)
         self.assertEqual(len(df.columns), 14)
+
+    def test_pivot(self):
+        df = self.wiki_data.load()
+        pivot_dat = wiki_data.WikiData.pivot_dimension(df)
+        self.assertListEqual(sorted(pivot_dat.columns.tolist()),
+                             list(set((df.ticker.tolist()))))
 
 
 if __name__ == '__main__':
