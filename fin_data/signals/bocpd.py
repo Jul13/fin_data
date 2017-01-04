@@ -2,37 +2,57 @@ import numpy as np
 from scipy import stats
 
 
-class ExponentialDistribution(object):
+class BayesianPdf(object):
+    """
+    Abstract interface which captures new evidence in a Bayesian framework, updating parameters of the underlying pdf.
+    """
     def pdf(self, x):
         raise NotImplementedError
     def update_statistics(self, data):
         raise NotImplementedError
 
 
-class Student(ExponentialDistribution):
-    def __init__(self, alpha, beta, kappa, mu):
+class Student(BayesianPdf):
+    """
+    Posterior distribution of a set of Gaussian variables.
+    """
+    def __init__(self, alpha, beta, tau, mu):
         self.alpha0 = self.alpha = np.array([alpha])
         self.beta0 = self.beta = np.array([beta])
-        self.kappa0 = self.kappa = np.array([kappa])
+        self.tau0 = self.tau = np.array([tau])
         self.mu0 = self.mu = np.array([mu])
 
     def pdf(self, data):
+        """
+        Returns the likelihoold of the data given the current estimation of the hyperparameters.
+
+        Args:
+            data (float): input positions to evaluate.
+
+        Returns:
+            numpy.array: likelihood for each of the underlying states of the hyperparameters.
+        """
         return stats.t.pdf(x=data,
                            df=2*self.alpha,
                            loc=self.mu,
-                           scale=np.sqrt(self.beta * (self.kappa+1) / (self.alpha *
-                                                                       self.kappa)))
+                           scale=np.sqrt(self.beta * (self.tau + 1) / (self.alpha * self.tau)))
 
     def update_statistics(self, data):
-        muT0 = np.concatenate((self.mu0, (self.kappa * self.mu + data) / (self.kappa + 1)))
-        kappaT0 = np.concatenate((self.kappa0, self.kappa + 1.))
+        """
+        update_statistics applies posterior update rules at:
+        http://www.stat.columbia.edu/~cook/movabletype/mlm/CONJINTRnew%2BTEX.pdf
+
+        Beware! Method with side-effects, it updates the underlying hyperparameters.
+        """
+        muT0 = np.concatenate((self.mu0, (self.tau * self.mu + data) / (self.tau + 1)))
+        tauT0 = np.concatenate((self.tau0, self.tau + 1.))
         alphaT0 = np.concatenate((self.alpha0, self.alpha + 0.5))
         betaT0 = np.concatenate((
             self.beta0,
-            self.beta + (self.kappa * (data - self.mu)**2) / (2. * (self.kappa + 1.))))
+            self.beta + (self.tau * (data - self.mu)**2) / (2. * (self.tau + 1.))))
 
         self.mu = muT0
-        self.kappa = kappaT0
+        self.tau = tauT0
         self.alpha = alphaT0
         self.beta = betaT0
 

@@ -11,5 +11,6 @@ class TestKalman(unittest.TestCase):
         pass
 
     def testKalman(self):
-        m, c = moving_average(range(10))
-        # TODO
+        x = range(100)
+        m, c = moving_average(x, transition_covariance=1.)
+        assert  (m[-1] - c[-1])[0] <= x[-1] <= (m[-1] + c[-1])[0]
