@@ -19,7 +19,7 @@ class WikiData(object):
             snapshot_file (str): path to snapshot file
         """
         df = pd.read_csv(snapshot_file, parse_dates=[1])
-
+        df.columns = [c.replace('-', '_') for c in df.columns]
         snapshot_file = datetime.today().strftime('%Y%m%d')
         df.to_hdf(os.path.join(self.base_dir, '{}.hdf.zip'.format(snapshot_file)), 'wiki',
                   complib='zlib', complevel=6)
