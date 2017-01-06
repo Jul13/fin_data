@@ -1,6 +1,7 @@
-bs4
+beautifulsoup4
 coverage
 h5py
+html5lib
 nose
 pandas
 pip
