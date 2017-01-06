@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, date
 
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -19,19 +19,27 @@ def store_snapshot(base_dir):
 
     table = soup.find('table', {'class': 'wikitable sortable'})
     sectors = []
-    subsectors = []
+    subindustries = []
     tickers = []
+    dates = []
     for row in table.findAll('tr'):
         col = row.findAll('td')
         if len(col) > 0:
             sector = str(col[3].string.strip()).lower().replace(' ', '_')
-            subsector = str(col[4].string.strip()).lower().replace(' ', '_')
+            subindustry = str(col[4].string.strip()).lower().replace(' ', '_')
+            date_first_added = None
+            buf = col[6]
+            if buf.string:
+                date_first_added = datetime.strptime(buf.string.strip(), '%Y-%m-%d').date()
+
             ticker = str(col[0].string.strip())
 
-            sectors.append(sector)
-            subsectors.append(subsector)
             tickers.append(ticker)
-    sp500 = pd.DataFrame({'ticker': tickers, 'sector': sectors, 'subsector': subsectors})
+            sectors.append(sector)
+            subindustries.append(subindustry)
+            dates.append(date_first_added)
+    sp500 = pd.DataFrame({'ticker': tickers, 'sector': sectors, 'subindustry': subindustries,
+                          'date_first_added': dates})
 
     snapshot_file = datetime.today().strftime('%Y%m%d')
     out_file = os.path.join(base_dir, '{}.csv'.format(snapshot_file))
@@ -40,5 +48,8 @@ def store_snapshot(base_dir):
 
 
 def load_latest(base_dir):
-    return pd.read_csv(latest_filename('{}/*.csv'.format(base_dir)))
+    df = pd.read_csv(latest_filename('{}/*.csv'.format(base_dir)),
+                     parse_dates=[0])  # Parse date_first_added column.
+    df.date_first_added.fillna(date(1970, 1, 1), inplace=True)
+    return df
 
