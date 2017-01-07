@@ -57,3 +57,20 @@ class WikiStore(object):
 
     def close(self):
         self.store.close()
+
+    def tickers_column(self, tickers, col='adj_close'):
+        if not tickers:
+            return None
+
+        def fetch_column(ticker):
+            buf = self[ticker]
+            df = buf[[col]]
+            df.columns = [ticker]
+            return df
+
+        buf = [fetch_column(ticker) for ticker in tickers]
+
+        if len(tickers) == 1:
+            return buf[0]
+
+        return buf[0].join(buf[1:])

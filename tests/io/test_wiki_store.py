@@ -18,4 +18,7 @@ def test_wiki_store():
     assert len(w_store.keys()) == 2
     df = w_store['A']
     assert df.index.min() == datetime.datetime(1999, 11, 18)
+
+    adj_close = w_store.tickers_column(w_store.keys())
+    assert adj_close.columns.tolist() == ['A', 'ZUMZ']
     w_store.close()
