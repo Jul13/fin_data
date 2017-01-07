@@ -1,6 +1,8 @@
 import os
 import tempfile
 
+import datetime
+
 from fin_data.io.wiki_store import WikiStore
 
 
@@ -14,6 +16,6 @@ def test_wiki_store():
     w_store = WikiStore(test_dir)
 
     assert len(w_store.keys()) == 2
-
+    df = w_store['A']
+    assert df.index.min() == datetime.datetime(1999, 11, 18)
     w_store.close()
-

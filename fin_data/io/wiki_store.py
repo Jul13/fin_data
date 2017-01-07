@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 import pandas as pd
+from functools32 import lru_cache
 from pandas import HDFStore
 
 from fin_data.util.file import latest_filename
@@ -23,6 +24,7 @@ class WikiStore(object):
     def keys(self):
         return self.tickers
 
+    @lru_cache(maxsize=100)
     def __getitem__(self, item):
         df = self.store[item]
         if self.date_index:

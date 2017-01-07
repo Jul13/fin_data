@@ -11,6 +11,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'bs4',
+    'functools32',
     'h5py',
     'pandas',
     'pip',
