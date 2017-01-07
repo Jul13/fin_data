@@ -19,8 +19,11 @@ def test_wiki_store():
     df = w_store['A']
     assert df.index.min() == datetime.datetime(1999, 11, 18)
 
-    adj_close = w_store.tickers_column(w_store.keys(), fun_filter=lambda df: df[df.index.year == 2000])
-    assert adj_close.columns.tolist() == ['A', 'ZUMZ']
-    assert adj_close.index.year.max() == 2000
-    assert adj_close.index.year.min() == 2000
+    ac = w_store.tickers_column(w_store.keys())
+    assert ac.columns.tolist() == ['A', 'ZUMZ']
+
+    ac_filter = w_store.tickers_column(w_store.keys(), fun_filter=lambda df: df[df.index.year == 2000])
+    assert ac_filter.columns.tolist() == ['A', 'ZUMZ']
+    assert ac_filter.index.year.max() == 2000
+    assert ac_filter.index.year.min() == 2000
     w_store.close()
